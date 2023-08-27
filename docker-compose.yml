@@ -1,0 +1,46 @@
+---
+services:
+  api:
+    container_name: dgii-rnc-api
+    working_dir: /usr/app
+    image: dgii-rnc/api:local
+    env_file: .env
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - target: ${PORT:-3000}
+        published: ${PORT:-3000}
+    depends_on:
+      - database
+
+  database:
+    container_name: dgii-rnc-database
+    image: postgres:${POSTGRES_VERSION}-alpine
+    environment:
+      POSTGRES_USER: ${DB_USER}
+      POSTGRES_PASSWORD: ${DB_PASSWORD}
+      POSTGRES_DB: ${DB_NAME}
+    ports:
+      - target: 5432
+        published: ${DB_PORT:-DB_PORT}
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U $DB_USER"]
+      interval: 45s
+      timeout: 10s
+      retries: 3
+      start_period: 20s
+
+  redis:
+    container_name: dgii-rnc-redis
+    image: redis:${REDIS_VERSION}-alpine
+    ports:
+      - target: 6379
+        published: ${REDIS_PORT:-6379}
+
+  adminer:
+    container_name: dgii-rnc-adminer
+    image: adminer
+    ports:
+      - target: 8080
+        published: 8080
