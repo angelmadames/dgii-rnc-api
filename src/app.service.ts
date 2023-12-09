@@ -4,7 +4,7 @@ import { Injectable } from '@nestjs/common';
 export class AppService {
   getStatus() {
     return {
-      status: 'The open-source community-powered DGII RNC API is up!',
+      status: 'The community-powered DGII RNC API is up!',
     };
   }
 

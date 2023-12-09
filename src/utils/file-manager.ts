@@ -38,7 +38,7 @@ export const deleteFile = async ({
 export const FileManager = {
   downloadFromUrl: async (url: string, path: string): Promise<void> => {
     try {
-      log.info(`ℹ️ Downloading file from URL: ${url}`);
+      log.info(`Downloading file from URL: ${url}`);
       const res = await axios.get(url, { responseType: 'stream' });
       const writer = fs.createWriteStream(path);
 
@@ -46,7 +46,7 @@ export const FileManager = {
 
       return new Promise<void>((resolve, reject) => {
         writer.on('finish', () => {
-          log.success(`✅ File downloaded to: ${path}`);
+          log.success(`File downloaded to: ${path}`);
           resolve();
         });
         writer.on('error', reject);
