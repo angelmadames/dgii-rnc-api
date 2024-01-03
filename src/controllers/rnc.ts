@@ -1,7 +1,5 @@
-import { eq } from 'drizzle-orm';
 import { Elysia } from 'elysia';
-import { queryClient as client } from '../database/connection.ts';
-import { rnc } from '../database/schema.ts';
+import RNCRepository from '../repositories/rnc.ts';
 
 export const rncController = (api: Elysia) => {
   api.get('/rnc', () => {
@@ -11,10 +9,14 @@ export const rncController = (api: Elysia) => {
   });
   api.get('/rnc/:id', async ({ params: { id } }) => {
     try {
-      const result = await client.query.rnc.findFirst({
-        where: eq(rnc.id, id),
-      });
-      return result;
+      return RNCRepository.getById(id);
+    } catch (e) {
+      console.log(e);
+    }
+  });
+  api.get('rnc/all', async () => {
+    try {
+      return RNCRepository.findAll();
     } catch (e) {
       console.log(e);
     }

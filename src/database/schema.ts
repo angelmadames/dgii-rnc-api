@@ -18,3 +18,6 @@ export const rnc = pgTable(
     };
   },
 );
+
+export type RNC = typeof rnc.$inferSelect;
+export type NewRNC = typeof rnc.$inferInsert;
