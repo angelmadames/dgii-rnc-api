@@ -10,7 +10,7 @@
     "dev": "bun run --watch src/index.ts",
     "format": "biome format src/ --write",
     "check": "biome check src/ --apply",
-    "download-rnc-file": "bun src/scripts/download-rnc-file.ts",
+    "download-rnc-file": "bun run src/scripts/download-rnc-file.ts",
     "database:sync": "drizzle-kit push:pg",
     "migrations:generate": "drizzle-kit generate:pg",
     "migrate": "bun run src/database/migrations.ts",

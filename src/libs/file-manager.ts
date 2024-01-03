@@ -23,14 +23,11 @@ class FileManager {
       return;
     }
 
-    if (
-      force ||
-      (await confirm({ message: `Delete file '${path}' recursively?` }))
-    ) {
+    if (force || (await confirm({ message: `Delete file '${path}'?` }))) {
       fs.rmSync(path, { force: true });
-      console.log(`🗑️ File: ${path} recursively deleted.`);
+      console.log(`File: ${path} deleted.`);
     } else {
-      console.log('⏩ Skipping...');
+      console.log('Skipping...');
     }
   };
 
