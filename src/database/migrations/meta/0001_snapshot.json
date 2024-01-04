@@ -66,9 +66,7 @@
       "indexes": {
         "rnc_idx": {
           "name": "rnc_idx",
-          "columns": [
-            "id"
-          ],
+          "columns": ["id"],
           "isUnique": true
         }
       },
