@@ -1,11 +1,11 @@
-import { RNC } from '../database/schema';
+import { NewRNC } from '../database/schema';
 
-export const RNCLineParser = (line: string): RNC => {
+export const RNCLineParser = (line: string): NewRNC => {
   const parsedLine = line
     .split('|')
     .map((field: string) => field.replace(/\s{2,}/g, ' '));
 
-  const rncRecord: RNC = {
+  const rncRecord: NewRNC = {
     id: parsedLine[0],
     name: parsedLine[1],
     commercialName: parsedLine[2],
@@ -20,4 +20,4 @@ export const RNCLineParser = (line: string): RNC => {
   return rncRecord;
 };
 
-export default RNCParser;
+export default RNCLineParser;

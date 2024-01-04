@@ -1,7 +1,7 @@
 import { eq } from 'drizzle-orm';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
 import queryClient from '../database/connection.ts';
-import type { RNC } from '../database/schema.ts';
+import type { NewRNC } from '../database/schema.ts';
 import * as schema from '../database/schema.ts';
 import { rnc } from '../database/schema.ts';
 
@@ -41,22 +41,8 @@ class RNCRepository {
     }
   }
 
-  async add(record: RNC) {
-    await this.databaseClient
-      .insert(rnc)
-      .values({
-        id: record.id,
-        name: record.name,
-        commercialName: record.commercialName,
-        description: record.description,
-        address: record.address,
-        phone: record.phone,
-        creationDate: record.creationDate,
-        status: record.status,
-        paymentSystem: record.paymentSystem,
-      })
-      .onConflictDoNothing()
-      .returning();
+  async add(record: NewRNC) {
+    return this.databaseClient.insert(rnc).values(record);
   }
 }
 

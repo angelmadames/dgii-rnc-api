@@ -1,5 +1,5 @@
 {
-  "id": "ee6edc2b-7b85-44fc-9369-a27cfffd8756",
+  "id": "90e9a481-ae30-4a61-82ea-96c6f9d97420",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
@@ -32,15 +32,21 @@
           "primaryKey": false,
           "notNull": false
         },
+        "address": {
+          "name": "address",
+          "type": "varchar",
+          "primaryKey": false,
+          "notNull": false
+        },
         "phone": {
           "name": "phone",
           "type": "varchar(11)",
           "primaryKey": false,
           "notNull": false
         },
-        "address": {
-          "name": "address",
-          "type": "varchar",
+        "creationDate": {
+          "name": "creationDate",
+          "type": "date",
           "primaryKey": false,
           "notNull": false
         },
