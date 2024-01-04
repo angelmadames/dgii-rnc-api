@@ -10,7 +10,7 @@ class RNCRepository {
 
   constructor(client = queryClient) {
     this.databaseClient = client;
-  };
+  }
 
   async findAll() {
     const rncCollection = await this.databaseClient.query.rnc.findMany();
@@ -22,31 +22,41 @@ class RNCRepository {
         description: rnc.description,
         address: rnc.address,
         phone: rnc.phone,
+        creationDate: rnc.creationDate,
         status: rnc.status,
         paymentSystem: rnc.paymentSystem,
       };
     });
-  };
+  }
 
   async getById(id: string) {
-    return await this.databaseClient.query.rnc.findFirst({
+    const record = await this.databaseClient.query.rnc.findFirst({
       where: eq(rnc.id, id),
-    })
+    });
+
+    if (record?.id) {
+      return record;
+    } else {
+      return { message: `RNC ${id} could not be found in the database.` };
+    }
   }
 
   async add(record: RNC) {
-    const res = await this.databaseClient.insert(rnc).values({
-      id: record.id,
-      name: record.name,
-      commercialName: record.commercialName,
-      description: record.description,
-      address: record.address,
-      phone: record.phone,
-      status: record.status,
-      paymentSystem: record.paymentSystem,
-    })
-    .onConflictDoNothing()
-    .returning();
+    await this.databaseClient
+      .insert(rnc)
+      .values({
+        id: record.id,
+        name: record.name,
+        commercialName: record.commercialName,
+        description: record.description,
+        address: record.address,
+        phone: record.phone,
+        creationDate: record.creationDate,
+        status: record.status,
+        paymentSystem: record.paymentSystem,
+      })
+      .onConflictDoNothing()
+      .returning();
   }
 }
 

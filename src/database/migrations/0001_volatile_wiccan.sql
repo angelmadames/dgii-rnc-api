@@ -1,0 +1,1 @@
+ALTER TABLE "rnc" ADD COLUMN "creationDate" date;

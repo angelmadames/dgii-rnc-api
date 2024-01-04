@@ -8,6 +8,13 @@
       "when": 1704236040614,
       "tag": "0000_curved_mantis",
       "breakpoints": true
+    },
+    {
+      "idx": 1,
+      "version": "5",
+      "when": 1704332401092,
+      "tag": "0001_volatile_wiccan",
+      "breakpoints": true
     }
   ]
 }
