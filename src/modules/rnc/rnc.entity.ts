@@ -1,4 +1,4 @@
-import { Entity, Column, PrimaryColumn } from 'typeorm';
+import { Column, Entity, PrimaryColumn } from 'typeorm';
 
 @Entity()
 export class Rnc {
@@ -19,6 +19,9 @@ export class Rnc {
 
   @Column()
   address: string;
+
+  @Column()
+  creationDate: string;
 
   @Column()
   status: string;

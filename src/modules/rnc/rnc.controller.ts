@@ -1,11 +1,10 @@
 import {
   Controller,
-  Get,
-  Post,
-  Body,
-  Patch,
-  Param,
   Delete,
+  Get,
+  HttpException,
+  HttpStatus,
+  Param,
 } from '@nestjs/common';
 import { RncService } from './rnc.service';
 
@@ -14,13 +13,21 @@ export class RncController {
   constructor(private readonly rncService: RncService) {}
 
   @Get()
-  findAll() {
-    return this.rncService.findAll();
+  async findAll() {
+    return await this.rncService.findAll();
   }
 
   @Get(':id')
-  findOne(@Param('id') id: string) {
-    return this.rncService.findOne(id);
+  async findOne(@Param('id') id: string) {
+    const record = await this.rncService.findOne(id);
+    if (record) {
+      return record;
+    } else {
+      throw new HttpException(
+        'Could not find RNC in our database.',
+        HttpStatus.NOT_FOUND,
+      );
+    }
   }
 
   @Delete(':id')

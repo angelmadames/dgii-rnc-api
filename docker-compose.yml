@@ -1,18 +1,18 @@
 ---
 services:
-  api:
-    container_name: dgii-rnc-api
-    working_dir: /usr/app
-    image: dgii-rnc/api:local
-    env_file: .env
-    build:
-      context: .
-      dockerfile: Dockerfile
-    ports:
-      - target: ${PORT:-3000}
-        published: ${PORT:-3000}
-    depends_on:
-      - database
+  # api:
+  #   container_name: dgii-rnc-api
+  #   working_dir: /usr/app
+  #   image: dgii-rnc/api:local
+  #   env_file: .env
+  #   build:
+  #     context: .
+  #     dockerfile: Dockerfile
+  #   ports:
+  #     - target: ${PORT:-3000}
+  #       published: ${PORT:-3000}
+  #   depends_on:
+  #     - database
 
   database:
     container_name: dgii-rnc-database
@@ -31,12 +31,12 @@ services:
       retries: 3
       start_period: 20s
 
-  redis:
-    container_name: dgii-rnc-redis
-    image: redis:${REDIS_VERSION}-alpine
-    ports:
-      - target: 6379
-        published: ${REDIS_PORT:-6379}
+  # redis:
+  #   container_name: dgii-rnc-redis
+  #   image: redis:${REDIS_VERSION}-alpine
+  #   ports:
+  #     - target: 6379
+  #       published: ${REDIS_PORT:-6379}
 
   adminer:
     container_name: dgii-rnc-adminer

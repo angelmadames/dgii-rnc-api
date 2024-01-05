@@ -36,3 +36,6 @@ lerna-debug.log*
 
 # Misc
 .env
+**/TMP
+**/DGII_RNC.TXT
+**/*.zip

@@ -14,8 +14,9 @@
     "format": "prettier --write 'src/**/*.ts'",
     "lint": "eslint 'src/**/*.ts' --fix",
     "migration:create": "typeorm migration:create",
-    "migration:run": "typeorm migration:run -d dist/database/config.js",
-    "migration:revert": "typeorm migration:revert"
+    "migration:run": "typeorm migration:run -d ./dist/database/config.js",
+    "migration:revert": "typeorm migration:revert",
+    "download-rnc-file": "ts-node src/scripts/download-rnc-file.ts"
   },
   "dependencies": {
     "@inquirer/prompts": "^3.2.0",
@@ -45,9 +46,9 @@
     "@typescript-eslint/eslint-plugin": "^6.0.0",
     "@typescript-eslint/parser": "^6.0.0",
     "chai": "^4.3.10",
+    "eslint": "^8.42.0",
     "eslint-config-prettier": "^9.0.0",
     "eslint-plugin-prettier": "^5.0.0",
-    "eslint": "^8.42.0",
     "mocha": "^10.2.0",
     "prettier": "^3.0.0",
     "source-map-support": "^0.5.21",

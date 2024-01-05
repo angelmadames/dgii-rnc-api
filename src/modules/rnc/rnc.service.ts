@@ -1,7 +1,7 @@
 import { Injectable } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
-import { Rnc } from './rnc.entity';
 import { Repository } from 'typeorm';
+import { Rnc } from './rnc.entity';
 
 @Injectable()
 export class RncService {
