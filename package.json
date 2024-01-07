@@ -11,23 +11,20 @@
     "format": "biome format src/ --write",
     "check": "biome check src/ --apply",
     "download-rnc-file": "bun run src/scripts/download-rnc-file.ts",
-    "database:sync": "drizzle-kit push:pg",
     "migrations:generate": "drizzle-kit generate:pg",
-    "migrate": "bun run src/database/migrations.ts",
-    "drizzle:studio": "drizzle-kit studio --port 8081"
+    "migrations:run": "bun run src/database/migrations.ts"
   },
   "dependencies": {
     "@inquirer/prompts": "^3.3.0",
     "axios": "^1.6.3",
     "chalk": "^5.3.0",
-    "drizzle-orm": "^0.29.2",
+    "drizzle-orm": "^0.29.3",
     "elysia": "^0.8.6",
-    "pg": "^8.11.3"
+    "postgres": "^3.4.3"
   },
   "devDependencies": {
     "@biomejs/biome": "^1.4.1",
     "@types/bun": "^1.0.0",
-    "@types/pg": "^8.10.9",
     "bun-types": "latest",
     "drizzle-kit": "^0.20.9"
   },

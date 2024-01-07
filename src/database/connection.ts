@@ -1,24 +1,23 @@
-import { drizzle } from 'drizzle-orm/node-postgres';
-import { Client } from 'pg';
 import * as schema from './schema';
+import { drizzle } from 'drizzle-orm/postgres-js';
+import { migrate } from 'drizzle-orm/postgres-js/migrator';
+import postgres from 'postgres';
 
-export const db = new Client({
-  host: process.env.DB_HOST,
-  port: 5432,
-  user: process.env.DB_USER,
-  password: process.env.DB_PASSWORD,
-  database: process.env.DB_NAME,
-});
+const databaseUrl = `
+  postgresql://
+  ${process.env.DB_USER}:${process.env.DB_PASSWORD}
+  @${process.env.DB_HOST}
+  /${process.env.DB_NAME}
+  ?sslmode=${process.env.DB_SSL_MODE}
+`.replace(/(\r\n|\n|\r)/gm, '').replace(/\s/g, '').trim();
 
-try {
-  console.log('Connecting to database...');
-  await db.connect();
-  console.log('Connected!');
-} catch (e) {
-  throw new Error(`Could not connect to database. See logs for details: ${e}`);
-}
+console.log(databaseUrl);
 
-export const client = db;
-export const queryClient = drizzle(db, { schema });
+// For migrations
+export const migrationClient = postgres(databaseUrl, { max: 1 });
 
-export default queryClient;
+// For query purposes
+const queryClient = postgres(databaseUrl);
+export const dbClient = drizzle(queryClient);
+
+export default dbClient;

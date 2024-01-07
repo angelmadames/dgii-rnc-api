@@ -67,7 +67,13 @@ class FileManager {
       crlfDelay: Infinity,
     });
 
-    rl.on('line', forEachLine);
+    rl.on('line', async (line) => {
+      try {
+        await forEachLine(line);
+      } catch (error) {
+        console.error('Error processing line:', error);
+      }
+    });
     rl.on('close', onClose);
   }
 }
