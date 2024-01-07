@@ -9,7 +9,7 @@ export const rnc = pgTable(
     description: text('description'),
     address: varchar('address'),
     phone: varchar('phone', { length: 11 }),
-    creationDate: date('creationDate', { mode: 'string' }),
+    creationDate: varchar('creationDate', { length: 10 }),
     status: varchar('status'),
     paymentSystem: varchar('paymentSystem'),
   },

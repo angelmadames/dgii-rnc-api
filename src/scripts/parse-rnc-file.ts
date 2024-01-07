@@ -1,22 +1,30 @@
 import dbClient from '../database/connection.ts';
-import { NewRNC, rnc } from '../database/schema.ts';
-import FileManager from '../libs/file-manager.ts';
-import { RNCLineParser } from '../libs/rnc-parser.ts';
-import RNCRepository from '../repositories/rnc.ts';
+import { NewRNC, RNC, rnc } from '../database/schema.ts';
+import rncLineParser from '../libs/rnc-parser.ts';
+import { parse } from 'csv';
+import fs from 'fs';
+import { finished } from 'stream/promises';
 
 const RNCCollectionFile =
   process.env.UNZIPPED_FILE_PATH || './TMP/DGII_RNC.TXT';
 
-FileManager.readLines(
-  RNCCollectionFile,
-  'latin1',
-  (line: string) => {
-    const rncRecord: NewRNC = RNCLineParser(line);
-    console.log(rncRecord);
-    const result = dbClient.insert(rnc).values(rncRecord);
-    console.log(result);
-  },
-  () => {
-    console.log('Done reading and parsing DGII RNC file.');
-  },
-);
+const processRncFile = async () => {
+  const records: NewRNC[] = [];
+  const parser = fs
+    .createReadStream(RNCCollectionFile)
+    .pipe(parse({ delimiter: '|' }));
+
+  parser.on('readable', async () => {
+    while (rncLineParser(parser.read()) !== null) {
+      const record: NewRNC = rncLineParser(parser.read());
+      console.log(record);
+      records.push(record);
+      await dbClient.insert(rnc).values(record).onConflictDoNothing();
+    }
+  });
+
+  await finished(parser);
+  return records;
+}
+
+const records = await processRncFile();

@@ -10,14 +10,16 @@
     "dev": "bun run --watch src/index.ts",
     "format": "biome format src/ --write",
     "check": "biome check src/ --apply",
-    "download-rnc-file": "bun run src/scripts/download-rnc-file.ts",
+    "database:drop": "drizzle-kit drop",
     "migrations:generate": "drizzle-kit generate:pg",
-    "migrations:run": "bun run src/database/migrations.ts"
+    "migrations:run": "bun run src/database/migrations.ts",
+    "download-rnc-file": "bun run src/scripts/download-rnc-file.ts"
   },
   "dependencies": {
     "@inquirer/prompts": "^3.3.0",
     "axios": "^1.6.3",
     "chalk": "^5.3.0",
+    "csv": "^6.3.6",
     "drizzle-orm": "^0.29.3",
     "elysia": "^0.8.6",
     "postgres": "^3.4.3"

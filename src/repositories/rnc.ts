@@ -1,19 +1,21 @@
 import { eq } from 'drizzle-orm';
 import { NodePgDatabase } from 'drizzle-orm/node-postgres';
-import queryClient from '../database/connection.ts';
+import dbClient from '../database/connection.ts';
 import type { NewRNC } from '../database/schema.ts';
 import * as schema from '../database/schema.ts';
+import type { RNC } from '../database/schema.ts';
 import { rnc } from '../database/schema.ts';
+import { PostgresJsDatabase } from 'drizzle-orm/postgres-js';
 
 class RNCRepository {
-  databaseClient: NodePgDatabase<typeof schema>;
+  dbClient: PostgresJsDatabase<Record<string, never>>;
 
-  constructor(client = queryClient) {
-    this.databaseClient = client;
+  constructor() {
+    this.dbClient = dbClient;
   }
 
   async findAll() {
-    const rncCollection = await this.databaseClient.query.rnc.findMany();
+    const rncCollection = await this.dbClient.select().from(rnc);
     return rncCollection.map((rnc) => {
       return {
         id: rnc.id,
@@ -30,11 +32,9 @@ class RNCRepository {
   }
 
   async getById(id: string) {
-    const record = await this.databaseClient.query.rnc.findFirst({
-      where: eq(rnc.id, id),
-    });
+    const record = await this.dbClient.select().from(rnc).where(eq(rnc.id, id)).limit(1);
 
-    if (record?.id) {
+    if (record[0]?.id) {
       return record;
     } else {
       return { message: `RNC ${id} could not be found in the database.` };
@@ -42,7 +42,7 @@ class RNCRepository {
   }
 
   async add(record: NewRNC) {
-    return this.databaseClient.insert(rnc).values(record);
+    return await this.dbClient.insert(rnc).values(record).returning();
   }
 }
 

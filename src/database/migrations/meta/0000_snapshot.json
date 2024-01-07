@@ -1,5 +1,5 @@
 {
-  "id": "5069b2ae-8b3b-4ebf-8797-885af7ab21b8",
+  "id": "f4e76245-da88-4514-8fee-150da51ccb47",
   "prevId": "00000000-0000-0000-0000-000000000000",
   "version": "5",
   "dialect": "pg",
@@ -46,7 +46,7 @@
         },
         "creationDate": {
           "name": "creationDate",
-          "type": "date",
+          "type": "varchar(10)",
           "primaryKey": false,
           "notNull": false
         },
@@ -66,7 +66,9 @@
       "indexes": {
         "rnc_idx": {
           "name": "rnc_idx",
-          "columns": ["id"],
+          "columns": [
+            "id"
+          ],
           "isUnique": true
         }
       },

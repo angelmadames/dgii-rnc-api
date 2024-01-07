@@ -5,7 +5,7 @@ CREATE TABLE IF NOT EXISTS "rnc" (
 	"description" text,
 	"address" varchar,
 	"phone" varchar(11),
-	"creationDate" date,
+	"creationDate" varchar(10),
 	"status" varchar,
 	"paymentSystem" varchar
 );
