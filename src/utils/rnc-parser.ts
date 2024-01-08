@@ -1,4 +1,4 @@
-import { Rnc } from "src/modules/rnc/rnc.entity";
+import { Rnc } from 'src/modules/rnc/rnc.entity';
 
 export const RNCLineParser = (line: string): Rnc => {
   const parsedLine = line

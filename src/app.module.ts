@@ -5,6 +5,7 @@ import { AppController } from './app.controller';
 import { AppService } from './app.service';
 import { TypeORMConfig } from './database/config';
 import { RncModule } from './modules/rnc/rnc.module';
+import { DownloadRNCFile } from './commands/download-rnc-file';
 
 @Module({
   imports: [
@@ -13,6 +14,6 @@ import { RncModule } from './modules/rnc/rnc.module';
     RncModule,
   ],
   controllers: [AppController],
-  providers: [AppService],
+  providers: [AppService, DownloadRNCFile],
 })
 export class AppModule {}

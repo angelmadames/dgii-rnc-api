@@ -25,4 +25,3 @@ try {
 } catch (e) {
   throw new Error(`Could not unzip downlaoded file.\nError: ${e}`);
 }
-
