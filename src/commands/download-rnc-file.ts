@@ -7,7 +7,6 @@ interface DownloadRNCFileOptions {
   url?: URL;
   path?: string;
   unzippedPath?: string;
-  deleteExisting?: boolean;
 }
 
 @Command({

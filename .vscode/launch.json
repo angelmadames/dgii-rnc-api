@@ -33,5 +33,21 @@
       "console": "internalConsole",
       "internalConsoleOptions": "openOnSessionStart",
     },
+    {
+      "type": "node",
+      "request": "launch",
+      "name": "Debug command 'process-rnc-file'",
+      "runtimeExecutable": "node",
+      "runtimeArgs": [
+        "--nolazy",
+        "-r",
+        "ts-node/register",
+      ],
+      "args": ["./src/cli.ts", "process-rnc-file"],
+      "skipFiles": ["<node_internals>/**", "node_modules/**"],
+      "autoAttachChildProcesses": true,
+      "console": "internalConsole",
+      "internalConsoleOptions": "openOnSessionStart",
+    },
   ]
 }

@@ -6,14 +6,18 @@ import { AppService } from './app.service';
 import { TypeORMConfig } from './database/config';
 import { RncModule } from './modules/rnc/rnc.module';
 import { DownloadRNCFile } from './commands/download-rnc-file';
+import { BullModule } from '@nestjs/bull';
+import BullConfig from './queue/config';
+import { ProcessRNCFile } from './commands/process-rnc-file';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    TypeOrmModule.forRoot(TypeORMConfig),
     RncModule,
+    TypeOrmModule.forRoot(TypeORMConfig),
+    BullModule.forRoot(BullConfig),
   ],
   controllers: [AppController],
-  providers: [AppService, DownloadRNCFile],
+  providers: [AppService, DownloadRNCFile, ProcessRNCFile],
 })
 export class AppModule {}
