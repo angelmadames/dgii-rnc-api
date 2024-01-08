@@ -16,7 +16,7 @@
     "migration:create": "typeorm migration:create",
     "migration:run": "typeorm migration:run -d ./dist/database/config.js",
     "migration:revert": "typeorm migration:revert",
-    "download-rnc-file": "ts-node src/scripts/download-rnc-file.ts"
+    "download-rnc-file": "ts-node ./src/cli.ts download-rnc-file"
   },
   "dependencies": {
     "@inquirer/prompts": "^3.2.0",
