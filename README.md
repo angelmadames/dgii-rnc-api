@@ -19,20 +19,20 @@ Created using [Nest](https://github.com/nestjs/nest).
 ## Installation
 
 ```bash
-pnpm install
+npm install
 ```
 
 ## Running the app
 
 ```bash
 # development
-pnpm run start
+npm run start
 
 # watch mode
-pnpm run start:dev
+npm run dev
 
 # production mode
-pnpm run start:production
+npm run production
 ```
 
 ## License
