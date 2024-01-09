@@ -7,15 +7,19 @@ import { TypeORMConfig } from './database/config';
 import { RncModule } from './modules/rnc/rnc.module';
 import { DownloadRNCFile } from './commands/download-rnc-file';
 import { BullModule } from '@nestjs/bull';
-import BullConfig from './queue/config';
 import { ProcessRNCFile } from './commands/process-rnc-file';
 
 @Module({
   imports: [
     ConfigModule.forRoot(),
-    RncModule,
     TypeOrmModule.forRoot(TypeORMConfig),
-    BullModule.forRoot(BullConfig),
+    BullModule.forRoot({
+      redis: {
+        host: process.env.REDIS_HOST || 'localhost',
+        port: parseInt(process.env.REDIS_PORT) || 6379,
+      },
+    }),
+    RncModule,
   ],
   controllers: [AppController],
   providers: [AppService, DownloadRNCFile, ProcessRNCFile],

@@ -8,9 +8,7 @@ import { BullModule } from '@nestjs/bull';
 @Module({
   imports: [
     TypeOrmModule.forFeature([Rnc]),
-    BullModule.registerQueue({
-      name: 'rnc',
-    }),
+    BullModule.registerQueue({ name: 'rnc' }),
   ],
   controllers: [RncController],
   providers: [RncService],

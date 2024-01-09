@@ -14,8 +14,11 @@ interface ProcessRNCFileOptions {
   description: 'A command to parse the DGII RNC .txt file.',
 })
 export class ProcessRNCFile extends CommandRunner {
-  constructor(private readonly RncService: RncService) {
+  rncService: RncService;
+
+  constructor(private RncService: RncService) {
     super();
+    this.rncService = RncService;
   }
 
   async run(
@@ -23,15 +26,15 @@ export class ProcessRNCFile extends CommandRunner {
     options?: ProcessRNCFileOptions,
   ): Promise<void> {
     try {
-      const records: Rnc[] = [];
       const parser = createReadStream(options.file).pipe(
         parse({ delimiter: '|' }),
       );
       parser.on('readable', async () => {
         while (rncLineParser(parser.read()) !== null) {
           const record: Rnc = rncLineParser(parser.read());
-          records.push(record);
-          this.RncService.store(record);
+          const redisstatus = await this.RncService.queueStatus();
+          await this.RncService.storeInQueue(record);
+          console.log(redisstatus);
           console.log(record);
         }
       });

@@ -1,9 +1,10 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { InjectQueue } from '@nestjs/bull';
 import { InjectRepository } from '@nestjs/typeorm';
+import { Queue } from 'bull';
 import { Repository } from 'typeorm';
 import { Rnc } from './rnc.entity';
-import { Queue } from 'bull';
-import { InjectQueue } from '@nestjs/bull';
+import type { Job } from 'bull';
 
 @Injectable()
 export class RncService {
@@ -27,7 +28,17 @@ export class RncService {
     await this.rncRepository.delete(id);
   }
 
-  async store(rnc: Rnc): Promise<void> {
-    await this.rncQueue.add(rnc);
+  async queueStatus() {
+    return this.rncQueue.client.status;
+  }
+
+  async storeInQueue(rnc: Rnc): Promise<Job> {
+    try {
+      return this.rncQueue.add('parse-rnc-line', rnc);
+    } catch (e) {
+      throw new InternalServerErrorException(
+        `Error adding RNC record to Queue: ${e}`,
+      );
+    }
   }
 }
