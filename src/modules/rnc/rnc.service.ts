@@ -28,7 +28,7 @@ export class RncService {
     await this.rncRepository.delete(id);
   }
 
-  async queueStatus() {
+  queueStatus() {
     return this.rncQueue.client.status;
   }
 
