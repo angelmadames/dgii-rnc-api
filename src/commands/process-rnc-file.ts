@@ -29,14 +29,16 @@ export class ProcessRNCFile extends CommandRunner {
       const parser = createReadStream(options.file).pipe(
         parse({ delimiter: '|' }),
       );
-      parser.on('readable', async () => {
-        while (rncLineParser(parser.read()) !== null) {
-          const record: Rnc = rncLineParser(parser.read());
-          const redisstatus = await this.RncService.queueStatus();
-          await this.RncService.storeInQueue(record);
-          console.log(redisstatus);
-          console.log(record);
-        }
+      return new Promise((resolve, reject) => {
+        parser.on('readable', async () => {
+          while (rncLineParser(parser.read()) !== null) {
+            const record: Rnc = rncLineParser(parser.read());
+            await this.RncService.storeInQueue(record);
+            console.log(`Processed record ${JSON.stringify(record)}`);
+            break;
+          }
+          resolve();
+        });
       });
     } catch (e) {
       throw new Error(`Could not process the DGII RNC file.\nError: ${e}`);
