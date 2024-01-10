@@ -4,6 +4,7 @@ import { Command, CommandRunner, Option } from 'nest-commander';
 import { Rnc } from '../modules/rnc/rnc.entity';
 import rncLineParser from '../utils/rnc-parser';
 import { RncService } from '../modules/rnc/rnc.service';
+import * as readline from 'node:readline';
 
 interface ProcessRNCFileOptions {
   file?: string;
@@ -16,9 +17,9 @@ interface ProcessRNCFileOptions {
 export class ProcessRNCFile extends CommandRunner {
   rncService: RncService;
 
-  constructor(private RncService: RncService) {
+  constructor(private readonly service: RncService) {
     super();
-    this.rncService = RncService;
+    this.rncService = service;
   }
 
   async run(
@@ -26,17 +27,23 @@ export class ProcessRNCFile extends CommandRunner {
     options?: ProcessRNCFileOptions,
   ): Promise<void> {
     try {
-      const parser = createReadStream(options.file).pipe(
-        parse({ delimiter: '|' }),
-      );
-      return new Promise((resolve, reject) => {
-        parser.on('readable', async () => {
-          while (rncLineParser(parser.read()) !== null) {
-            const record: Rnc = rncLineParser(parser.read());
-            await this.RncService.storeInQueue(record);
-            console.log(`Processed record ${JSON.stringify(record)}`);
-            break;
-          }
+      return new Promise((resolve) => {
+        const rl = readline.createInterface({
+          input: createReadStream(options.file, { encoding: 'utf8' }),
+          crlfDelay: Infinity,
+        });
+
+        rl.on('line', (line) => {
+          const record: Rnc = rncLineParser(line);
+          this.rncService.storeInQueue(record);
+          console.log(
+            `RNC record added to queue: ${record.id} / ${record.name}`,
+          );
+        });
+
+        rl.on('close', () => {
+          this.rncService.flushQueue();
+          console.log(`RNC file processed successfully.`)
           resolve();
         });
       });

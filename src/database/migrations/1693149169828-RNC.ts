@@ -33,7 +33,7 @@ export class RNC1693149169828 implements MigrationInterface {
           },
           {
             name: 'creationDate',
-            type: 'timestamp',
+            type: 'varchar',
           },
           {
             name: 'status',

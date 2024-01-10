@@ -5,6 +5,7 @@ import { Queue } from 'bull';
 import { Repository } from 'typeorm';
 import { Rnc } from './rnc.entity';
 import type { Job } from 'bull';
+import { RNCQueue } from './rnc.enums';
 
 @Injectable()
 export class RncService {
@@ -12,9 +13,13 @@ export class RncService {
     @InjectRepository(Rnc)
     private rncRepository: Repository<Rnc>,
 
-    @InjectQueue('rnc')
+    @InjectQueue(RNCQueue.NAME)
     private rncQueue: Queue,
   ) {}
+
+  async add(rnc: Rnc): Promise<Rnc> {
+    return this.rncRepository.save(rnc);
+  }
 
   findAll(): Promise<Rnc[]> {
     return this.rncRepository.find();
@@ -34,11 +39,15 @@ export class RncService {
 
   async storeInQueue(rnc: Rnc): Promise<Job> {
     try {
-      return this.rncQueue.add('parse-rnc-line', rnc);
+      return this.rncQueue.add(RNCQueue.PARSE_LINE, rnc);
     } catch (e) {
       throw new InternalServerErrorException(
         `Error adding RNC record to Queue: ${e}`,
       );
     }
+  }
+
+  flushQueue() {
+    return this.rncQueue.empty();
   }
 }
