@@ -6,7 +6,11 @@ import { RncService } from './rnc.service';
 
 @Processor(RNCQueue.NAME)
 export class RncProcessor {
-  constructor(private readonly RncService: RncService) {}
+  rncService: RncService;
+
+  constructor(private readonly RncService: RncService) {
+    this.rncService = RncService;
+  }
 
   @Process(RNCQueue.PARSE_LINE)
   async processRncRecord(job: Job) {

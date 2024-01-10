@@ -1,4 +1,3 @@
-import { parse } from 'csv';
 import { createReadStream } from 'fs';
 import { Command, CommandRunner, Option } from 'nest-commander';
 import { Rnc } from '../modules/rnc/rnc.entity';
@@ -43,7 +42,7 @@ export class ProcessRNCFile extends CommandRunner {
 
         rl.on('close', () => {
           this.rncService.flushQueue();
-          console.log(`RNC file processed successfully.`)
+          console.log(`RNC file processed successfully.`);
           resolve();
         });
       });

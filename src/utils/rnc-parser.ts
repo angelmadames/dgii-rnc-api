@@ -2,14 +2,12 @@ import { Rnc } from 'src/modules/rnc/rnc.entity';
 
 export const rncLineParser = (line: string): Rnc => {
   try {
-    const parsedLine = line
-      .split('|')
-      .map((field: string) => {
-        return field
-          .replace(/\s{2,}/g, ' ')
-          .replaceAll('"', '')
-          .trim();
-      });
+    const parsedLine = line.split('|').map((field: string) => {
+      return field
+        .replace(/\s{2,}/g, ' ')
+        .replaceAll('"', '')
+        .trim();
+    });
 
     const rncRecord: Rnc = {
       id: parsedLine[0],
