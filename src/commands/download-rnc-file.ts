@@ -20,7 +20,7 @@ export class DownloadRNCFile extends CommandRunner {
   ): Promise<void> {
     try {
       await FileManager.downloadFromURL(options.url, options.path);
-      spawnSync(`unzip ${path}`);
+      spawnSync('unzip', [options.path]);
 
       if (FileManager.isFile(options.unzippedPath)) {
         console.log(`File unzipped successfully at ${options.unzippedPath}`);
