@@ -22,26 +22,32 @@ export class RNC1693149169828 implements MigrationInterface {
           {
             name: 'description',
             type: 'text',
+            isNullable: true,
           },
           {
             name: 'phone',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'address',
             type: 'varchar',
+            isNullable: true
           },
           {
             name: 'creationDate',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'status',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'paymentSystem',
             type: 'varchar',
+            isNullable: true,
           },
         ],
       }),
