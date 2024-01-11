@@ -42,7 +42,7 @@ export class ProcessRNCFile extends CommandRunner {
           });
 
           rl.on('error', (err) => {
-            console.error(`Error reading file: ${err.message}`);
+            console.error(`RNC file could not be read: ${err.message}`);
             reject(err);
           });
 

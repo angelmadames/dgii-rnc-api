@@ -1,4 +1,4 @@
-import { Processor, Process, OnQueueFailed } from '@nestjs/bull';
+import { Processor, Process, OnQueueFailed, OnQueueCompleted } from '@nestjs/bull';
 import { Job } from 'bull';
 import { Logger } from '@nestjs/common';
 import { RNCQueue } from './rnc.enums';
@@ -22,7 +22,6 @@ export class RncProcessor {
 
   @OnQueueFailed()
   onFailed(job: Job) {
-    console.log(job);
     Logger.error(`RNC record job ${job} process failed.`);
   }
 }
