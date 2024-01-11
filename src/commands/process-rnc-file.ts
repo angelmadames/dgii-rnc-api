@@ -25,6 +25,8 @@ export class ProcessRNCFile extends CommandRunner {
     passedParam: string[],
     options?: ProcessRNCFileOptions,
   ): Promise<void> {
+    console.log('Processing RNC file...');
+    console.log(`RNC file path: ${options.file}`);
     try {
       const processFile = async (options) => {
         return new Promise<void>((resolve, reject) => {

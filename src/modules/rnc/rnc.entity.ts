@@ -8,7 +8,7 @@ export class Rnc {
   @Column()
   name: string;
 
-  @Column()
+  @Column({ nullable: true })
   commercialName: string;
 
   @Column({ nullable: true })

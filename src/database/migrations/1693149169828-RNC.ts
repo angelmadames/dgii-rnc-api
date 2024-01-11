@@ -14,10 +14,12 @@ export class RNC1693149169828 implements MigrationInterface {
           {
             name: 'name',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'commercialName',
             type: 'varchar',
+            isNullable: true,
           },
           {
             name: 'description',
