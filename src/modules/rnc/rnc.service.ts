@@ -17,7 +17,7 @@ export class RncService {
     private rncQueue: Queue,
   ) {}
 
-  async add(rnc: Rnc): Promise<Rnc> {
+  add(rnc: Rnc): Promise<Rnc> {
     return this.rncRepository.save(rnc);
   }
 
@@ -37,17 +37,16 @@ export class RncService {
     return this.rncQueue.client.status;
   }
 
-  async storeInQueue(rnc: Rnc): Promise<Job> {
+  storeInQueue(rnc: Rnc): Promise<Job> {
     try {
-      return this.rncQueue.add(RNCQueue.PARSE_LINE, rnc);
+      return this.rncQueue.add(RNCQueue.PARSE_LINE, rnc, {
+        delay: 1000,
+        removeOnComplete: true
+      });
     } catch (e) {
       throw new InternalServerErrorException(
         `Error adding RNC record to Queue: ${e}`,
       );
     }
-  }
-
-  flushQueue() {
-    return this.rncQueue.empty();
   }
 }

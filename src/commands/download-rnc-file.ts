@@ -1,6 +1,5 @@
-import { spawnSync } from 'child_process';
 import { Command, CommandRunner, Option } from 'nest-commander';
-import path from 'path';
+import { spawnSync } from 'child_process';
 import FileManager from '../utils/file-manager';
 
 interface DownloadRNCFileOptions {
@@ -15,7 +14,7 @@ interface DownloadRNCFileOptions {
 })
 export class DownloadRNCFile extends CommandRunner {
   async run(
-    passedParam: string[],
+    params: string[],
     options?: DownloadRNCFileOptions,
   ): Promise<void> {
     try {

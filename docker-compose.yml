@@ -38,16 +38,6 @@ services:
       - target: 6379
         published: ${REDIS_PORT:-6379}
 
-  redis_ui:
-    container_name: dgii-rnc-redis-ui
-    image: ghcr.io/joeferner/redis-commander:latest
-    restart: always
-    environment:
-    - REDIS_HOSTS=local:redis:6379
-    ports:
-      - target: 8081
-        published: 8081
-
   adminer:
     container_name: dgii-rnc-adminer
     image: adminer

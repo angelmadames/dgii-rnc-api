@@ -1,9 +1,9 @@
-import { createReadStream } from 'fs';
 import { Command, CommandRunner, Option } from 'nest-commander';
+import { createReadStream } from 'fs';
 import { Rnc } from '../modules/rnc/rnc.entity';
-import rncLineParser from '../utils/rnc-parser';
 import { RncService } from '../modules/rnc/rnc.service';
 import * as readline from 'node:readline';
+import rncLineParser from '../utils/rnc-parser';
 
 interface ProcessRNCFileOptions {
   file?: string;
@@ -26,26 +26,34 @@ export class ProcessRNCFile extends CommandRunner {
     options?: ProcessRNCFileOptions,
   ): Promise<void> {
     try {
-      return new Promise((resolve) => {
-        const rl = readline.createInterface({
-          input: createReadStream(options.file, { encoding: 'utf8' }),
-          crlfDelay: Infinity,
-        });
+      const processFile = async (options) => {
+        return new Promise<void>((resolve, reject) => {
+          const rl = readline.createInterface({
+            input: createReadStream(options.file, { encoding: 'utf8' }),
+            crlfDelay: Infinity,
+          });
 
-        rl.on('line', (line) => {
-          const record: Rnc = rncLineParser(line);
-          this.rncService.storeInQueue(record);
-          console.log(
-            `RNC record added to queue: ${record.id} / ${record.name}`,
-          );
-        });
+          rl.on('line', (line) => {
+            const record: Rnc = rncLineParser(line);
+            this.rncService.storeInQueue(record);
+            console.log(
+              `RNC record added to queue: ${record.id} / ${record.name}`,
+            );
+          });
 
-        rl.on('close', () => {
-          this.rncService.flushQueue();
-          console.log(`RNC file processed successfully.`);
-          resolve();
+          rl.on('error', (err) => {
+            console.error(`Error reading file: ${err.message}`);
+            reject(err);
+          });
+
+          rl.on('close', () => {
+            rl.close();
+            console.log(`RNC file processed successfully.`);
+            resolve();
+          });
         });
-      });
+      }
+      await processFile(options);
     } catch (e) {
       throw new Error(`Could not process the DGII RNC file.\nError: ${e}`);
     }

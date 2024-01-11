@@ -13,8 +13,8 @@ export class RncProcessor {
   }
 
   @Process(RNCQueue.PARSE_LINE)
-  async processRncRecord(job: Job) {
-    await this.RncService.add(job.data);
+  processRncRecord(job: Job) {
+    this.RncService.add(job.data);
     Logger.log(
       `RNC record ${job.data.id} processed in the queue successfully!`,
     );
