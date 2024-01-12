@@ -22,12 +22,12 @@ export class RncController {
     const record = await this.rncService.findOne(id);
     if (record) {
       return record;
-    } else {
-      throw new HttpException(
-        'Could not find RNC in our database.',
-        HttpStatus.NOT_FOUND,
-      );
     }
+
+    throw new HttpException(
+      'Could not find RNC in our database.',
+      HttpStatus.NOT_FOUND,
+    );
   }
 
   @Delete(':id')

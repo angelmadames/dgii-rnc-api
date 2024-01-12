@@ -1,8 +1,8 @@
-import { Command, CommandRunner, Option } from 'nest-commander';
 import { createReadStream } from 'fs';
+import * as readline from 'node:readline';
+import { Command, CommandRunner, Option } from 'nest-commander';
 import { Rnc } from '../modules/rnc/rnc.entity';
 import { RncService } from '../modules/rnc/rnc.service';
-import * as readline from 'node:readline';
 import rncLineParser from '../utils/rnc-parser';
 
 interface ProcessRNCFileOptions {
@@ -50,11 +50,11 @@ export class ProcessRNCFile extends CommandRunner {
 
           rl.on('close', () => {
             rl.close();
-            console.log(`RNC file processed successfully.`);
+            console.log('RNC file processed successfully.');
             resolve();
           });
         });
-      }
+      };
       await processFile(options);
     } catch (e) {
       throw new Error(`Could not process the DGII RNC file.\nError: ${e}`);

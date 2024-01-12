@@ -34,7 +34,7 @@ export class RNC1693149169828 implements MigrationInterface {
           {
             name: 'address',
             type: 'varchar',
-            isNullable: true
+            isNullable: true,
           },
           {
             name: 'creationDate',

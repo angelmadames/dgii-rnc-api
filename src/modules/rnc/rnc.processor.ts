@@ -1,27 +1,35 @@
-import { Processor, Process, OnQueueFailed, OnQueueCompleted } from '@nestjs/bull';
-import { Job } from 'bull';
+import {
+  OnQueueDrained,
+  OnQueueFailed,
+  Process,
+  Processor,
+} from '@nestjs/bull';
 import { Logger } from '@nestjs/common';
+import { Job } from 'bull';
 import { RNCQueue } from './rnc.enums';
 import { RncService } from './rnc.service';
 
 @Processor(RNCQueue.NAME)
-export class RncProcessor {
-  rncService: RncService;
+export class RNCProcessor {
+  private readonly logger = new Logger(RNCProcessor.name);
 
   constructor(private readonly RncService: RncService) {
-    this.rncService = RncService;
+    this.logger.log('RNC Processor initialized.');
   }
 
   @Process(RNCQueue.PARSE_LINE)
-  processRncRecord(job: Job) {
+  async processRncRecord(job: Job) {
     this.RncService.add(job.data);
-    Logger.log(
-      `RNC record ${job.data.id} processed in the queue successfully!`,
-    );
+    this.logger.log(`RNC record added: ${job.data.id}.`);
   }
 
   @OnQueueFailed()
   onFailed(job: Job) {
-    Logger.error(`RNC record job ${job} process failed.`);
+    this.logger.error(`RNC record job ${job} process failed.`);
+  }
+
+  @OnQueueDrained()
+  onDrained() {
+    this.logger.log('All pending RNC queue jobs were processed.');
   }
 }

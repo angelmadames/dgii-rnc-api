@@ -1,5 +1,5 @@
-import { Command, CommandRunner, Option } from 'nest-commander';
 import { spawnSync } from 'child_process';
+import { Command, CommandRunner, Option } from 'nest-commander';
 import FileManager from '../utils/file-manager';
 
 interface DownloadRNCFileOptions {
@@ -13,10 +13,7 @@ interface DownloadRNCFileOptions {
   description: 'A command to download the DGII RNC .txt file.',
 })
 export class DownloadRNCFile extends CommandRunner {
-  async run(
-    params: string[],
-    options?: DownloadRNCFileOptions,
-  ): Promise<void> {
+  async run(params: string[], options?: DownloadRNCFileOptions): Promise<void> {
     try {
       await FileManager.downloadFromURL(options.url, options.path);
       spawnSync('unzip', [options.path]);

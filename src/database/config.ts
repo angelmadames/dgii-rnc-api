@@ -1,5 +1,6 @@
-import 'dotenv/config';
+import { dirname } from 'path';
 import { TypeOrmModuleOptions } from '@nestjs/typeorm';
+import 'dotenv/config';
 import { DataSource, DataSourceOptions } from 'typeorm';
 
 export const DataSourceConfig: DataSourceOptions = {
@@ -9,8 +10,8 @@ export const DataSourceConfig: DataSourceOptions = {
   username: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  entities: [__dirname + '/../**/*.entity.{js, ts}'],
-  migrations: [__dirname + '/../**/migrations/*.{js, ts}'],
+  entities: [`${dirname}/../**/*.entity.{js, ts}`],
+  migrations: [`${dirname}/../**/migrations/*.{js, ts}`],
 };
 
 export const TypeORMConfig: TypeOrmModuleOptions = {

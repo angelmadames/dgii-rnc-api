@@ -1,11 +1,11 @@
-import { Module } from '@nestjs/common';
-import { RncService } from './rnc.service';
-import { RncController } from './rnc.controller';
-import { TypeOrmModule } from '@nestjs/typeorm';
-import { Rnc } from './rnc.entity';
 import { BullModule } from '@nestjs/bull';
-import { RncProcessor } from './rnc.processor';
+import { Module } from '@nestjs/common';
+import { TypeOrmModule } from '@nestjs/typeorm';
+import { RncController } from './rnc.controller';
+import { Rnc } from './rnc.entity';
 import { RNCQueue } from './rnc.enums';
+import { RNCProcessor } from './rnc.processor';
+import { RncService } from './rnc.service';
 
 @Module({
   imports: [
@@ -13,7 +13,7 @@ import { RNCQueue } from './rnc.enums';
     BullModule.registerQueue({ name: RNCQueue.NAME }),
   ],
   controllers: [RncController],
-  providers: [RncService, RncProcessor],
+  providers: [RncService, RNCProcessor],
   exports: [RncService],
 })
 export class RncModule {}

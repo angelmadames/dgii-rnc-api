@@ -1,10 +1,10 @@
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectQueue } from '@nestjs/bull';
+import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Queue } from 'bull';
+import type { Job } from 'bull';
 import { Repository } from 'typeorm';
 import { Rnc } from './rnc.entity';
-import type { Job } from 'bull';
 import { RNCQueue } from './rnc.enums';
 
 @Injectable()
@@ -41,7 +41,7 @@ export class RncService {
     try {
       return this.rncQueue.add(RNCQueue.PARSE_LINE, rnc, {
         delay: 1000,
-        removeOnComplete: true
+        removeOnComplete: true,
       });
     } catch (e) {
       throw new InternalServerErrorException(
