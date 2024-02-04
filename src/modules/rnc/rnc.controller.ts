@@ -5,6 +5,7 @@ import {
   HttpException,
   HttpStatus,
   Param,
+  Query,
 } from '@nestjs/common';
 import { RncService } from './rnc.service';
 
@@ -20,6 +21,19 @@ export class RncController {
   @Get(':id')
   async findOne(@Param('id') id: string) {
     const record = await this.rncService.findOne(id);
+    if (record) {
+      return record;
+    }
+
+    throw new HttpException(
+      'Could not find RNC in our database.',
+      HttpStatus.NOT_FOUND,
+    );
+  }
+
+  @Get('/search')
+  async searchOne(@Query('name') name?: string) {
+    const record = await this.rncService.searchOneByName(name);
     if (record) {
       return record;
     }

@@ -3,7 +3,7 @@ import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Queue } from 'bull';
 import type { Job } from 'bull';
-import { Repository } from 'typeorm';
+import { Like, Repository } from 'typeorm';
 import { Rnc } from './rnc.entity';
 import { RNCQueue } from './rnc.enums';
 
@@ -27,6 +27,12 @@ export class RncService {
 
   findOne(id: string): Promise<Rnc | null> {
     return this.rncRepository.findOneBy({ id });
+  }
+
+  searchOneByName(name: string): Promise<Rnc | null> {
+    return this.rncRepository.findOneBy({
+      name: Like(`${name}`),
+    });
   }
 
   async remove(id: string): Promise<void> {
