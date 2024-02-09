@@ -18,9 +18,9 @@ export class RncController {
     return await this.rncService.findAll();
   }
 
-  @Get(':id')
-  async findOne(@Param('id') id: string) {
-    const record = await this.rncService.findOne(id);
+  @Get('search')
+  async searchOne(@Query('name') name: string) {
+    const record = await this.rncService.searchByName(name);
     if (record) {
       return record;
     }
@@ -31,9 +31,9 @@ export class RncController {
     );
   }
 
-  @Get('/search')
-  async searchOne(@Query('name') name?: string) {
-    const record = await this.rncService.searchOneByName(name);
+  @Get(':id')
+  async findOne(@Param('id') id: string) {
+    const record = await this.rncService.findOne(id);
     if (record) {
       return record;
     }

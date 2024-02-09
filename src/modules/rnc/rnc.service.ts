@@ -29,9 +29,9 @@ export class RncService {
     return this.rncRepository.findOneBy({ id });
   }
 
-  searchOneByName(name: string): Promise<Rnc | null> {
-    return this.rncRepository.findOneBy({
-      name: Like(`${name}`),
+  searchByName(name: string): Promise<Rnc[]> {
+    return this.rncRepository.findBy({
+      name: Like(`%${name.toUpperCase()}%`)
     });
   }
 
