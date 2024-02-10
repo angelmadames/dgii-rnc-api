@@ -15,6 +15,8 @@ import { RncModule } from './modules/rnc/rnc.module';
     TypeOrmModule.forRoot(TypeORMConfig),
     BullModule.forRoot({
       redis: {
+        username: process.env.REDIS_USERNAME,
+        password: process.env.REDIS_PASSWORD,
         host: process.env.REDIS_HOST || 'localhost',
         port: parseInt(process.env.REDIS_PORT) || 6379,
       },
