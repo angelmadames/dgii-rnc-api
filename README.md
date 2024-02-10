@@ -1,5 +1,5 @@
 <!-- omit in toc -->
-# DGII RNC API
+# DGII RNC ― API
 
 <!-- omit in toc -->
 # Contents
@@ -37,4 +37,4 @@ npm run production
 
 ## License
 
-Nest is [MIT licensed](LICENSE).
+DGII RNC API is [MIT licensed](LICENSE).
