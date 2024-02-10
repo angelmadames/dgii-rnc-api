@@ -1,0 +1,38 @@
+name: 🧪 Tests
+
+on:
+  push:
+    branches:
+      - main
+  pull_request:
+    branches:
+      - main
+
+concurrency:
+  group: '${{ github.workflow }} @ ${{ github.event.pull_request.head.label || github.ref }}'
+  cancel-in-progress: true
+
+jobs:
+  build:
+    runs-on: ubuntu-latest
+    steps:
+      - name: 💻 Checkout current code ref
+        uses: actions/checkout@v4
+
+      - name: 🟢 Configure Node.js on runner
+        uses: actions/setup-node@v4
+        with:
+          node-version-file: '.tool-versions'
+          cache: 'npm'
+
+      - name: 📦 Install package dependencies using lockfile
+        run: npm ci
+
+      - name: 🔨 Run build
+        run: npm run build
+
+      - name: 🌷 Run format, lint & check with Biome
+        run: |
+          npm run format:ci
+          npm run lint
+          npm run check:ci

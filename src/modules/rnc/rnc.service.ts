@@ -31,7 +31,7 @@ export class RncService {
 
   searchByName(name: string): Promise<Rnc[]> {
     return this.rncRepository.findBy({
-      name: Like(`%${name.toUpperCase()}%`)
+      name: Like(`%${name.toUpperCase()}%`),
     });
   }
 
