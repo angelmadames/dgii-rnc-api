@@ -1,8 +1,11 @@
 import * as fs from 'node:fs';
 import { confirm } from '@inquirer/prompts';
 import axios from 'axios';
+import { Logger } from '@nestjs/common';
 
 class FileManager {
+  private readonly logger = new Logger();
+
   isFile(path: string): boolean {
     return fs.existsSync(path) && fs.lstatSync(path).isFile();
   }
@@ -19,21 +22,21 @@ class FileManager {
     force?: boolean;
   }): Promise<void> => {
     if (this.isDirectory(path)) {
-      console.log(`Path: ${path} is not a valid file.`);
+      this.logger.log(`Path: ${path} is not a valid file.`);
       return;
     }
 
     if (force || (await confirm({ message: `Delete file '${path}'?` }))) {
       fs.rmSync(path, { force: true });
-      console.log(`File: ${path} deleted.`);
+      this.logger.log(`File: ${path} deleted.`);
     } else {
-      console.log('Skipping...');
+      this.logger.log('Skipping...');
     }
   };
 
   async downloadFromURL(url: URL, path: string): Promise<void> {
     try {
-      console.log(`Downloading file from URL: ${url}`);
+      this.logger.log(`Downloading file from URL: ${url}`);
       const res = await axios.get(url.toString(), { responseType: 'stream' });
       const writer = fs.createWriteStream(path);
 
@@ -41,7 +44,7 @@ class FileManager {
 
       return new Promise<void>((resolve, reject) => {
         writer.on('finish', () => {
-          console.log(`File downloaded to: ${path}`);
+          this.logger.log(`File downloaded to: ${path}`);
           resolve();
         });
         writer.on('error', reject);

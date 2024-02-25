@@ -2,6 +2,7 @@ import { spawnSync } from 'child_process';
 import 'dotenv/config';
 import { Command, CommandRunner, Option } from 'nest-commander';
 import FileManager from '../utils/file-manager';
+import { Logger } from '@nestjs/common';
 
 interface DownloadRNCFileOptions {
   url?: URL;
@@ -14,18 +15,22 @@ interface DownloadRNCFileOptions {
   description: 'A command to download the DGII RNC .txt file.',
 })
 export class DownloadRNCFile extends CommandRunner {
+  private readonly logger = new Logger(DownloadRNCFile.name);
+
   async run(params: string[], options?: DownloadRNCFileOptions): Promise<void> {
     try {
       await FileManager.downloadFromURL(options.url, options.path);
       spawnSync('unzip', [options.path]);
 
       if (FileManager.isFile(options.unzippedPath)) {
-        console.log(`File unzipped successfully at ${options.unzippedPath}`);
+        this.logger.log(
+          `File unzipped successfully at ${options.unzippedPath}`,
+        );
         await FileManager.deleteFile({
           path: options.path,
           force: true,
         });
-        console.log(`Deleted file: ${options.path}.`);
+        this.logger.log(`Deleted file: ${options.path}.`);
       }
     } catch (e) {
       throw new Error(`Could not unzip downloaded file.\nError: ${e}`);

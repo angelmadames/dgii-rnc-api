@@ -35,8 +35,7 @@ export class ProcessRNCFile extends CommandRunner {
         return new Promise<void>((resolve, reject) => {
           let rncCount = 0;
           let rncRecords: Rnc[] = [];
-          const batchSize =
-            Number(process.env.QUEUE_BATCH_SIZE) || 10000;
+          const batchSize = Number(process.env.QUEUE_BATCH_SIZE) || 10000;
 
           const rl = readline.createInterface({
             input: createReadStream(options.file, { encoding: 'utf8' }),
