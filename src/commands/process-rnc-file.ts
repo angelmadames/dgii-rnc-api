@@ -34,9 +34,9 @@ export class ProcessRNCFile extends CommandRunner {
       const processFile = async (options) => {
         return new Promise<void>((resolve, reject) => {
           let rncCount = 0;
-          const rncRecordBatchSize =
-            Number(process.env.QUEUE_BATCH_SIZE) || 10000;
           let rncRecords: Rnc[] = [];
+          const batchSize =
+            Number(process.env.QUEUE_BATCH_SIZE) || 10000;
 
           const rl = readline.createInterface({
             input: createReadStream(options.file, { encoding: 'utf8' }),
@@ -47,10 +47,10 @@ export class ProcessRNCFile extends CommandRunner {
             const record: Rnc = rncLineParser(line);
             rncRecords.push(record);
             rncCount++;
-            if (rncCount === rncRecordBatchSize) {
+            if (rncCount === batchSize) {
               this.rncService.storeBulkInQueue(rncRecords);
               console.log(
-                `RNC record job batch of size ${rncRecordBatchSize} added to queue!`,
+                `RNC record job batch of size ${batchSize} added to queue!`,
               );
               rncCount = 0;
               rncRecords = [];
