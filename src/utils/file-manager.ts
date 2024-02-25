@@ -1,7 +1,8 @@
+import { spawnSync } from 'node:child_process';
 import * as fs from 'node:fs';
 import { confirm } from '@inquirer/prompts';
-import axios from 'axios';
 import { Logger } from '@nestjs/common';
+import axios from 'axios';
 
 class FileManager {
   private readonly logger = new Logger();
@@ -56,6 +57,15 @@ class FileManager {
 
   readFile(path: string, encoding: BufferEncoding = 'utf8') {
     return fs.readFileSync(path, encoding);
+  }
+
+  unzipFile(path: string) {
+    try {
+      if (this.isFile(path)) this.deleteFile({ path: path, force: true });
+      spawnSync('unzip', [path]);
+    } catch (error) {
+      throw new Error(`Could not unzip specified file ${path}.\n${error}`);
+    }
   }
 }
 
