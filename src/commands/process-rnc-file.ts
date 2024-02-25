@@ -7,6 +7,7 @@ import { Rnc } from '../modules/rnc/rnc.entity';
 import { RNCQueue } from '../modules/rnc/rnc.enums';
 import { RncService } from '../modules/rnc/rnc.service';
 import rncLineParser from '../utils/rnc-parser';
+import { Logger } from '@nestjs/common';
 
 interface ProcessRNCFileOptions {
   file?: string;
@@ -18,6 +19,7 @@ interface ProcessRNCFileOptions {
 })
 export class ProcessRNCFile extends CommandRunner {
   rncService: RncService;
+  private readonly logger = new Logger(ProcessRNCFile.name);
 
   constructor(private readonly service: RncService) {
     super();
@@ -28,8 +30,8 @@ export class ProcessRNCFile extends CommandRunner {
     passedParam: string[],
     options?: ProcessRNCFileOptions,
   ): Promise<void> {
-    console.log('Processing RNC file...');
-    console.log(`RNC file path: ${options.file}`);
+    this.logger.log('Processing RNC file...');
+    this.logger.log(`RNC file path: ${options.file}`);
     try {
       const processFile = async (options) => {
         return new Promise<void>((resolve, reject) => {
@@ -48,7 +50,7 @@ export class ProcessRNCFile extends CommandRunner {
             rncCount++;
             if (rncCount === batchSize) {
               this.rncService.storeBulkInQueue(rncRecords);
-              console.log(
+              this.logger.log(
                 `RNC record job batch of size ${batchSize} added to queue!`,
               );
               rncCount = 0;
@@ -57,13 +59,13 @@ export class ProcessRNCFile extends CommandRunner {
           });
 
           rl.on('error', (err) => {
-            console.error(`RNC file could not be read: ${err.message}`);
+            this.logger.error(`RNC file could not be read: ${err.message}`);
             reject(err);
           });
 
           rl.on('close', () => {
             rl.close();
-            console.log('RNC file processed successfully.');
+            this.logger.log('RNC file processed successfully.');
             resolve();
           });
         });
