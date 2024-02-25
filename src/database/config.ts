@@ -10,9 +10,8 @@ export const DataSourceConfig: DataSourceOptions = {
   username: process.env.DB_USER,
   password: process.env.DB_PASSWORD,
   database: process.env.DB_NAME,
-  ssl: Boolean(process.env.DB_SSL_MODE) ?? false,
-  entities: ["dist/**/*.entity{.ts,.js}"],
-  migrations: ["dist/database/migrations/*{.ts,.js}"],
+  entities: ['dist/**/*.entity{.ts,.js}'],
+  migrations: ['dist/database/migrations/*{.ts,.js}'],
 };
 
 export const TypeORMConfig: TypeOrmModuleOptions = {

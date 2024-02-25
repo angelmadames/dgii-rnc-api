@@ -2,7 +2,7 @@ import { InjectQueue } from '@nestjs/bull';
 import { Injectable, InternalServerErrorException } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Queue } from 'bull';
-import type { Job } from 'bull';
+import type { Job, JobOptions } from 'bull';
 import { Like, Repository } from 'typeorm';
 import { Rnc } from './rnc.entity';
 import { RNCQueue } from './rnc.enums';
@@ -19,6 +19,10 @@ export class RncService {
 
   add(rnc: Rnc): Promise<Rnc> {
     return this.rncRepository.save(rnc);
+  }
+
+  addBulk(rncRecords: Rnc[]): Promise<Rnc[]> {
+    return this.rncRepository.save(rncRecords);
   }
 
   findAll(): Promise<Rnc[]> {
@@ -52,6 +56,18 @@ export class RncService {
     } catch (e) {
       throw new InternalServerErrorException(
         `Error adding RNC record to Queue: ${e}`,
+      );
+    }
+  }
+
+  storeBulkInQueue(
+    jobs: { name?: string; data: Rnc; opts?: Omit<JobOptions, 'repeat'> }[],
+  ): Promise<Job[]> {
+    try {
+      return this.rncQueue.addBulk(jobs);
+    } catch (e) {
+      throw new InternalServerErrorException(
+        `Error adding RNC record bulk to Queue: ${e}`,
       );
     }
   }

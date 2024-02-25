@@ -8,14 +8,17 @@
       "runtimeExecutable": "npm",
       "runtimeArgs": [
         "run",
-        "debug",
+        "debug"
       ],
+      "env": {
+        "PATH": "${env:PATH}:${userHome}/.asdf/shims"
+      },
       "autoAttachChildProcesses": true,
       "restart": true,
       "sourceMaps": true,
       "stopOnEntry": false,
       "console": "internalConsole",
-      "internalConsoleOptions": "openOnSessionStart",
+      "internalConsoleOptions": "openOnSessionStart"
     },
     {
       "type": "node",
@@ -25,13 +28,16 @@
       "runtimeArgs": [
         "--nolazy",
         "-r",
-        "ts-node/register",
+        "ts-node/register"
       ],
+      "env": {
+        "PATH": "${env:PATH}:${userHome}/.asdf/shims"
+      },
       "args": ["./src/cli.ts", "download-rnc-file"],
       "skipFiles": ["<node_internals>/**", "node_modules/**"],
       "autoAttachChildProcesses": true,
       "console": "internalConsole",
-      "internalConsoleOptions": "openOnSessionStart",
+      "internalConsoleOptions": "openOnSessionStart"
     },
     {
       "type": "node",
@@ -41,13 +47,16 @@
       "runtimeArgs": [
         "--nolazy",
         "-r",
-        "ts-node/register",
+        "ts-node/register"
       ],
+      "env": {
+        "PATH": "${env:PATH}:${userHome}/.asdf/shims"
+      },
       "args": ["./src/cli.ts", "process-rnc-file"],
       "skipFiles": ["<node_internals>/**", "node_modules/**"],
       "autoAttachChildProcesses": true,
       "console": "internalConsole",
-      "internalConsoleOptions": "openOnSessionStart",
-    },
+      "internalConsoleOptions": "openOnSessionStart"
+    }
   ]
 }

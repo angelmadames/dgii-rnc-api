@@ -1,7 +1,7 @@
 import { spawnSync } from 'child_process';
+import 'dotenv/config';
 import { Command, CommandRunner, Option } from 'nest-commander';
 import FileManager from '../utils/file-manager';
-import 'dotenv/config';
 
 interface DownloadRNCFileOptions {
   url?: URL;
@@ -28,7 +28,7 @@ export class DownloadRNCFile extends CommandRunner {
         console.log(`Deleted file: ${options.path}.`);
       }
     } catch (e) {
-      throw new Error(`Could not unzip downlaoded file.\nError: ${e}`);
+      throw new Error(`Could not unzip downloaded file.\nError: ${e}`);
     }
   }
 

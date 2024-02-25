@@ -1,10 +1,12 @@
 import { createReadStream } from 'fs';
 import * as readline from 'node:readline';
+import { Job, JobOptions } from 'bull';
+import 'dotenv/config';
 import { Command, CommandRunner, Option } from 'nest-commander';
 import { Rnc } from '../modules/rnc/rnc.entity';
+import { RNCQueue } from '../modules/rnc/rnc.enums';
 import { RncService } from '../modules/rnc/rnc.service';
 import rncLineParser from '../utils/rnc-parser';
-import 'dotenv/config';
 
 interface ProcessRNCFileOptions {
   file?: string;
@@ -31,6 +33,11 @@ export class ProcessRNCFile extends CommandRunner {
     try {
       const processFile = async (options) => {
         return new Promise<void>((resolve, reject) => {
+          let rncRecords: { name?: string; data: object; opts?: JobOptions }[] =
+            [];
+          let rncCount = 0;
+          const rncRecordBatchSize = process.env.QUEUE_BATCH_SIZE || 10000;
+
           const rl = readline.createInterface({
             input: createReadStream(options.file, { encoding: 'utf8' }),
             crlfDelay: Infinity,
@@ -38,10 +45,18 @@ export class ProcessRNCFile extends CommandRunner {
 
           rl.on('line', (line) => {
             const record: Rnc = rncLineParser(line);
-            this.rncService.storeInQueue(record);
-            console.log(
-              `RNC record added to queue: ${record.id} / ${record.name}`,
-            );
+            rncRecords.push({
+              name: RNCQueue.PARSE_LINE,
+              data: record,
+              opts: { removeOnComplete: true },
+            });
+            rncCount++;
+            if (rncCount === rncRecordBatchSize) {
+              this.rncService.storeBulkInQueue(rncRecords);
+              console.log('RNC record bulk job added to queue!');
+              rncCount = 0;
+              rncRecords = [];
+            }
           });
 
           rl.on('error', (err) => {
