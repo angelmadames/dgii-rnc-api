@@ -4,6 +4,7 @@ import { Command, CommandRunner, Option } from 'nest-commander';
 import { Rnc } from '../modules/rnc/rnc.entity';
 import { RncService } from '../modules/rnc/rnc.service';
 import rncLineParser from '../utils/rnc-parser';
+import 'dotenv/config';
 
 interface ProcessRNCFileOptions {
   file?: string;

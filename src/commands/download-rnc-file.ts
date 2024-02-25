@@ -1,6 +1,7 @@
 import { spawnSync } from 'child_process';
 import { Command, CommandRunner, Option } from 'nest-commander';
 import FileManager from '../utils/file-manager';
+import 'dotenv/config';
 
 interface DownloadRNCFileOptions {
   url?: URL;
