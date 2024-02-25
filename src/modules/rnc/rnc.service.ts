@@ -60,11 +60,12 @@ export class RncService {
     }
   }
 
-  storeBulkInQueue(
-    jobs: { name?: string; data: Rnc; opts?: Omit<JobOptions, 'repeat'> }[],
-  ): Promise<Job[]> {
+  storeBulkInQueue(records: Rnc[]): Promise<Job> {
     try {
-      return this.rncQueue.addBulk(jobs);
+      return this.rncQueue.add(RNCQueue.PARSE_BULK, records, {
+        delay: 1000,
+        removeOnComplete: true,
+      });
     } catch (e) {
       throw new InternalServerErrorException(
         `Error adding RNC record bulk to Queue: ${e}`,

@@ -1,4 +1,6 @@
 import {
+  OnGlobalQueueActive,
+  OnQueueCleaned,
   OnQueueDrained,
   OnQueueFailed,
   Process,
@@ -21,6 +23,17 @@ export class RNCProcessor {
   async processRncRecord(job: Job) {
     this.RncService.add(job.data);
     this.logger.log(`RNC record added: ${job.data.id}.`);
+  }
+
+  @Process(RNCQueue.PARSE_BULK)
+  async processRncRecords(job: Job) {
+    this.RncService.addBulk(job.data);
+    this.logger.log(`Processed ${job.data.length} RNC records.`);
+  }
+
+  @OnGlobalQueueActive()
+  onActive(job: Job) {
+    this.logger.log('Processing RNC record batch from queue...');
   }
 
   @OnQueueFailed()
