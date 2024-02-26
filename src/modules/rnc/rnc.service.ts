@@ -23,8 +23,8 @@ export class RncService {
     private rncQueue: Queue,
   ) {}
 
-  add(rnc: Rnc): Promise<Rnc> {
-    return this.rncRepository.save(rnc);
+  async add(rnc: Rnc): Promise<Rnc> {
+    return await this.rncRepository.save(rnc);
   }
 
   addBulk(rncRecords: Rnc[]): Promise<Rnc[]> {
