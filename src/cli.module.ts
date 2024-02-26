@@ -5,7 +5,7 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { DownloadRNCFile } from './commands/download-rnc-file';
 import { ProcessRNCFile } from './commands/process-rnc-file';
 import { TypeORMConfig } from './database/config';
-import { RncModule } from './modules/rnc/rnc.module';
+import { RncCLIModule } from './modules/rnc/cli.module';
 
 @Module({
   imports: [
@@ -19,7 +19,7 @@ import { RncModule } from './modules/rnc/rnc.module';
         port: parseInt(process.env.REDIS_PORT) || 6379,
       },
     }),
-    RncModule,
+    RncCLIModule,
   ],
   providers: [DownloadRNCFile, ProcessRNCFile],
 })

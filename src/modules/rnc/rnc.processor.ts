@@ -8,9 +8,9 @@ import {
 } from '@nestjs/bull';
 import { Logger } from '@nestjs/common';
 import { Job } from 'bull';
+import { Rnc } from './rnc.entity';
 import { RNCQueue } from './rnc.enums';
 import { RncService } from './rnc.service';
-import { Rnc } from './rnc.entity';
 
 @Processor(RNCQueue.NAME)
 export class RNCProcessor {

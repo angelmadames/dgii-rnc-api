@@ -1,5 +1,9 @@
 import { InjectQueue } from '@nestjs/bull';
-import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
+import {
+  Injectable,
+  InternalServerErrorException,
+  Logger,
+} from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Queue } from 'bull';
 import type { Job, JobOptions } from 'bull';
