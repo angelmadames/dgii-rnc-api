@@ -1,8 +1,11 @@
 import { CommandFactory } from 'nest-commander';
-import { AppModule } from './app.module';
+import { CLIModule } from './cli.module';
+import { NestFactory } from '@nestjs/core';
 
 const bootstrap = async () => {
-  await CommandFactory.run(AppModule, ['log', 'warn', 'error']);
+  const cli = await NestFactory.createApplicationContext(CLIModule);
+  await CommandFactory.run(CLIModule, ['log', 'warn', 'error']);
+  await cli.close();
 };
 
 bootstrap();

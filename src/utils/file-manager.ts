@@ -61,7 +61,6 @@ class FileManager {
 
   unzipFile(path: string) {
     try {
-      if (this.isFile(path)) this.deleteFile({ path: path, force: true });
       spawnSync('unzip', [path]);
     } catch (error) {
       throw new Error(`Could not unzip specified file ${path}.\n${error}`);

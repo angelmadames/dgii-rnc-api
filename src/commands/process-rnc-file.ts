@@ -5,7 +5,6 @@ import { Job, JobOptions } from 'bull';
 import 'dotenv/config';
 import { Command, CommandRunner, Option } from 'nest-commander';
 import { Rnc } from '../modules/rnc/rnc.entity';
-import { RNCQueue } from '../modules/rnc/rnc.enums';
 import { RncService } from '../modules/rnc/rnc.service';
 import rncLineParser from '../utils/rnc-parser';
 

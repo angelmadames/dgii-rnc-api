@@ -1,5 +1,5 @@
 import { InjectQueue } from '@nestjs/bull';
-import { Injectable, InternalServerErrorException } from '@nestjs/common';
+import { Injectable, InternalServerErrorException, Logger } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Queue } from 'bull';
 import type { Job, JobOptions } from 'bull';
@@ -9,6 +9,8 @@ import { RNCQueue } from './rnc.enums';
 
 @Injectable()
 export class RncService {
+  private readonly logger = new Logger(RncService.name);
+
   constructor(
     @InjectRepository(Rnc)
     private rncRepository: Repository<Rnc>,

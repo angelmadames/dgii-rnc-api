@@ -10,6 +10,7 @@ import { Logger } from '@nestjs/common';
 import { Job } from 'bull';
 import { RNCQueue } from './rnc.enums';
 import { RncService } from './rnc.service';
+import { Rnc } from './rnc.entity';
 
 @Processor(RNCQueue.NAME)
 export class RNCProcessor {
@@ -26,8 +27,11 @@ export class RNCProcessor {
   }
 
   @Process(RNCQueue.PARSE_BULK)
-  async processRncRecords(job: Job) {
-    this.RncService.addBulk(job.data);
+  async processRncRecords(job: Job<Rnc[]>) {
+    for (const record of job.data) {
+      this.RncService.add(record);
+      this.logger.log(`RNC record added: ${record.id}.`);
+    }
     this.logger.log(`Processed ${job.data.length} RNC records.`);
   }
 
