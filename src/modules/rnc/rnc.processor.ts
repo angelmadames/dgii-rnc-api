@@ -1,7 +1,5 @@
 import {
   OnGlobalQueueActive,
-  OnQueueCleaned,
-  OnQueueCompleted,
   OnQueueDrained,
   OnQueueFailed,
   Process,

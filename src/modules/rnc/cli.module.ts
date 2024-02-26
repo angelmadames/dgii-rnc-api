@@ -4,7 +4,6 @@ import { TypeOrmModule } from '@nestjs/typeorm';
 import { RncController } from './rnc.controller';
 import { Rnc } from './rnc.entity';
 import { RNCQueue } from './rnc.enums';
-import { RNCProcessor } from './rnc.processor';
 import { RncService } from './rnc.service';
 
 @Module({

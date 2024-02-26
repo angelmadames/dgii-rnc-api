@@ -1,4 +1,3 @@
-import { spawnSync } from 'child_process';
 import { Logger } from '@nestjs/common';
 import 'dotenv/config';
 import { Command, CommandRunner, Option } from 'nest-commander';

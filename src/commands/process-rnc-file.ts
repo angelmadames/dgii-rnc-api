@@ -1,7 +1,6 @@
 import { createReadStream } from 'fs';
 import * as readline from 'node:readline';
 import { Logger } from '@nestjs/common';
-import { Job, JobOptions } from 'bull';
 import 'dotenv/config';
 import { Command, CommandRunner, Option } from 'nest-commander';
 import { Rnc } from '../modules/rnc/rnc.entity';

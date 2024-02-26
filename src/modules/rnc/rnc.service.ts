@@ -6,7 +6,7 @@ import {
 } from '@nestjs/common';
 import { InjectRepository } from '@nestjs/typeorm';
 import { Queue } from 'bull';
-import type { Job, JobOptions } from 'bull';
+import type { Job } from 'bull';
 import { Like, Repository } from 'typeorm';
 import { Rnc } from './rnc.entity';
 import { RNCQueue } from './rnc.enums';
