@@ -49,7 +49,7 @@ export class DownloadRNCFile extends CommandRunner {
     description: 'Path of downloaded files',
     defaultValue: process.env.DOWNLOADED_FILE_PATH,
   })
-  parseDowloadPath(path: string): string {
+  parseDownloadPath(path: string): string {
     return path;
   }
 
