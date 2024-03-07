@@ -1,4 +1,4 @@
-import { createReadStream, readFileSync } from 'fs';
+import { createReadStream } from 'fs';
 import * as readline from 'node:readline';
 import { Logger } from '@nestjs/common';
 import 'dotenv/config';
