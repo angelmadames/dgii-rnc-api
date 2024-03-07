@@ -4,45 +4,23 @@ import { confirm } from '@inquirer/prompts';
 import { Logger } from '@nestjs/common';
 import axios from 'axios';
 
+interface PathManagementOptions {
+  path: string;
+  force?: boolean;
+  url?: URL;
+}
+
 class FileManager {
-  private readonly logger = new Logger();
+  private readonly logger = new Logger(FileManager.name);
 
-  isFile(path: string): boolean {
-    return fs.existsSync(path) && fs.lstatSync(path).isFile();
-  }
-
-  isDirectory(path: string): boolean {
-    return fs.existsSync(path) && fs.lstatSync(path).isDirectory();
-  }
-
-  deleteFile = async ({
-    path,
-    force = false,
-  }: {
-    path: string;
-    force?: boolean;
-  }): Promise<void> => {
-    if (this.isDirectory(path)) {
-      this.logger.log(`Path: ${path} is not a valid file.`);
-      return;
-    }
-
-    if (force || (await confirm({ message: `Delete file '${path}'?` }))) {
-      fs.rmSync(path, { force: true });
-      this.logger.log(`File: ${path} deleted.`);
-    } else {
-      this.logger.log('Skipping...');
-    }
-  };
-
-  async downloadFromURL(url: URL, path: string): Promise<void> {
+  async downloadFromURL({ url, path }: PathManagementOptions) {
     try {
-      this.logger.log(`Downloading file from URL: ${url}`);
-      const res = await axios.get(url.toString(), { responseType: 'stream' });
       const writer = fs.createWriteStream(path);
 
-      res.data.pipe(writer);
+      this.logger.log(`Downloading file from URL: ${url}`);
+      const res = await axios.get(url.toString(), { responseType: 'stream' });
 
+      res.data.pipe(writer);
       return new Promise<void>((resolve, reject) => {
         writer.on('finish', () => {
           this.logger.log(`File downloaded to: ${path}`);
@@ -51,7 +29,8 @@ class FileManager {
         writer.on('error', reject);
       });
     } catch (error) {
-      throw new Error(`❌ Failed to download file. \nMessage: ${error}`);
+      this.logger.error(`Failed to download file from URL: ${url}.`);
+      throw new Error(error);
     }
   }
 
@@ -59,12 +38,33 @@ class FileManager {
     return fs.readFileSync(path, encoding);
   }
 
-  unzipFile(path: string) {
-    try {
-      spawnSync('unzip', [path]);
-    } catch (error) {
-      throw new Error(`Could not unzip specified file ${path}.\n${error}`);
+  deleteFile = async ({ path, force = true }: PathManagementOptions) => {
+    if (this.isDirectory(path)) {
+      this.logger.error(`Path: ${path} is not a valid file.`);
+      return;
     }
+
+    if (force || (await confirm({ message: `Delete file '${path}'?` }))) {
+      fs.rmSync(path, { force: true });
+      this.logger.log(`File: ${path} deleted.`);
+    }
+  };
+
+  unzipFile(path: string, unzippedPath?: string) {
+    try {
+      spawnSync('unzip', ['-o', path.toString()]);
+    } catch (error) {
+      this.logger.error(`Could not unzip specified file: ${path}.`);
+      throw new Error(error);
+    }
+  }
+
+  isFile(path: string) {
+    return fs.existsSync(path) && fs.lstatSync(path).isFile();
+  }
+
+  isDirectory(path: string) {
+    return fs.existsSync(path) && fs.lstatSync(path).isDirectory();
   }
 }
 

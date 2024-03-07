@@ -11,24 +11,27 @@ interface DownloadRNCFileOptions {
 
 @Command({
   name: 'download-rnc-file',
-  description: 'A command to download the DGII RNC .txt file.',
+  description: 'A command to download the DGII RNC CSV file.',
 })
 export class DownloadRNCFile extends CommandRunner {
   private readonly logger = new Logger(DownloadRNCFile.name);
-
-  async run(params: string[], options?: DownloadRNCFileOptions): Promise<void> {
+  async run(params: string[], options?: DownloadRNCFileOptions) {
+    const url = options.url;
+    const zipFile = options.path;
+    const unzippedPath = options.unzippedPath;
     try {
-      await FileManager.downloadFromURL(options.url, options.path);
-      FileManager.unzipFile(options.path);
+      // Cleanup working directory before execution
+      await FileManager.deleteFile({ path: zipFile });
+      await FileManager.deleteFile({ path: unzippedPath });
 
-      if (FileManager.isFile(options.unzippedPath)) {
-        this.logger.log(
-          `File unzipped successfully at ${options.unzippedPath}`,
-        );
-        await FileManager.deleteFile({
-          path: options.path,
-          force: true,
-        });
+      // Download and unzip DGII RNC file to specified path
+      await FileManager.downloadFromURL({ url: url, path: zipFile });
+      FileManager.unzipFile(zipFile, unzippedPath);
+
+      // Confirm file was unzipped successfully
+      if (FileManager.isFile(unzippedPath)) {
+        this.logger.log(`File unzipped successfully at ${unzippedPath}`);
+        await FileManager.deleteFile({ path: zipFile });
       }
     } catch (e) {
       throw new Error(`Could not unzip downloaded file.\nError: ${e}`);

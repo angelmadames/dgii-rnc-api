@@ -1,4 +1,4 @@
-import { createReadStream } from 'fs';
+import { createReadStream, readFileSync } from 'fs';
 import * as readline from 'node:readline';
 import { Logger } from '@nestjs/common';
 import 'dotenv/config';
@@ -38,7 +38,7 @@ export class ProcessRNCFile extends CommandRunner {
           const batchSize = Number(process.env.QUEUE_BATCH_SIZE) || 10000;
 
           const rl = readline.createInterface({
-            input: createReadStream(options.file, { encoding: 'utf8' }),
+            input: createReadStream(options.file, { encoding: 'latin1' }),
             crlfDelay: Infinity,
           });
 
