@@ -12,6 +12,7 @@
   - [Migrations](#migrations)
 - [Installation](#installation)
 - [Running the API](#running-the-api)
+- [How to contribute](#how-to-contribute)
 - [License](#license)
 
 ## Overview
@@ -71,6 +72,10 @@ npm run start # development mode
 npm run dev # watch mode
 npm run production # production mode
 ```
+
+## How to contribute
+
+Read the [contribution guidelines](CONTRIBUTING.md).
 
 ## License
 
