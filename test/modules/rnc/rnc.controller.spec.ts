@@ -1,7 +1,7 @@
 import { HttpException, HttpStatus } from '@nestjs/common';
 import { Test, TestingModule } from '@nestjs/testing';
-import { RncController } from './rnc.controller';
-import { RncService } from './rnc.service';
+import { RncController } from '../../../src/modules/rnc/rnc.controller';
+import { RncService } from '../../../src/modules/rnc/rnc.service';
 
 describe('RncController', () => {
   let controller: RncController;

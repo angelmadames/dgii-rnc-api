@@ -1,5 +1,5 @@
 import { Rnc } from 'src/modules/rnc/rnc.entity';
-import { rncLineParser } from './rnc-parser';
+import { rncLineParser } from '../../src/utils/rnc-parser';
 
 describe('rncLineParser', () => {
   it('should parse a line into an Rnc object', () => {
