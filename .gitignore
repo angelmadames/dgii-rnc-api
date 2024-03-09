@@ -39,3 +39,4 @@ lerna-debug.log*
 **/TMP
 **/DGII_RNC.TXT
 **/*.zip
+**/bytebase
