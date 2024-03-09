@@ -24,6 +24,10 @@ describe('RncController', () => {
     service = module.get<RncService>(RncService);
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should be defined', () => {
     expect(controller).toBeDefined();
   });

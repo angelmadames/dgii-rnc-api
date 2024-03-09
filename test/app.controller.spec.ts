@@ -16,6 +16,10 @@ describe('AppController', () => {
     appService = module.get<AppService>(AppService);
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   describe('getStatus', () => {
     it('should return the status from AppService', () => {
       const status = { status: 'OK' };

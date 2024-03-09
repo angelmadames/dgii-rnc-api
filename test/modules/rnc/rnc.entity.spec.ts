@@ -19,6 +19,10 @@ describe('Rnc', () => {
     repository = module.get<Repository<Rnc>>(getRepositoryToken(Rnc));
   });
 
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should be defined', () => {
     expect(repository).toBeDefined();
   });

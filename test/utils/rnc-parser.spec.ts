@@ -2,6 +2,10 @@ import { Rnc } from 'src/modules/rnc/rnc.entity';
 import { rncLineParser } from '../../src/utils/rnc-parser';
 
 describe('rncLineParser', () => {
+  afterEach(() => {
+    jest.clearAllMocks();
+  });
+
   it('should parse a line into an Rnc object', () => {
     const line =
       '1|Name|Commercial Name|Description|Address1|Address2|Address3|Phone|Creation Date|Status|Payment System';

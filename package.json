@@ -21,7 +21,7 @@
     "test:watch": "jest --watch",
     "test:cov": "jest --coverage",
     "migration:create": "typeorm migration:create",
-    "migration:run": "typeorm migration:run -d ./dist/database/config.js",
+    "migration:run": "typeorm migration:run -d ./dist/src/database/config.js",
     "migration:revert": "typeorm migration:revert",
     "download-rnc-file": "ts-node ./src/cli.ts download-rnc-file",
     "process-rnc-file": "ts-node ./src/cli.ts process-rnc-file"

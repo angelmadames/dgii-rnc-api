@@ -41,6 +41,8 @@ export class RNCProcessor {
   @OnQueueFailed()
   onFailed(job: Job) {
     this.logger.error(`RNC record job ${job} process failed.`);
+    this.logger.error(job.data);
+    this.logger.error(job.failedReason);
   }
 
   @OnQueueDrained()
