@@ -40,7 +40,7 @@ services:
 
   bytebase:
     container_name: dgii-rnc-bytebase
-    image: bytebase/bytebase:2.14.0
+    image: bytebase/bytebase:2.21.0
     volumes:
       - ./bytebase:/var/opt/bytebase
     ports:
