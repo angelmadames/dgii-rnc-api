@@ -1,10 +1,10 @@
-import { createReadStream } from 'fs';
+import { createReadStream } from 'node:fs';
 import * as readline from 'node:readline';
 import { Logger } from '@nestjs/common';
 import 'dotenv/config';
 import { Command, CommandRunner, Option } from 'nest-commander';
-import { Rnc } from '../modules/rnc/rnc.entity';
-import { RncService } from '../modules/rnc/rnc.service';
+import type { Rnc } from '../modules/rnc/rnc.entity';
+import type { RncService } from '../modules/rnc/rnc.service';
 import rncLineParser from '../utils/rnc-parser';
 
 interface ProcessRNCFileOptions {
@@ -39,7 +39,7 @@ export class ProcessRNCFile extends CommandRunner {
 
           const rl = readline.createInterface({
             input: createReadStream(options.file, { encoding: 'latin1' }),
-            crlfDelay: Infinity,
+            crlfDelay: Number.POSITIVE_INFINITY,
           });
 
           rl.on('line', (line) => {

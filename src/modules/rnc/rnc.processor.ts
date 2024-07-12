@@ -6,10 +6,10 @@ import {
   Processor,
 } from '@nestjs/bull';
 import { Logger } from '@nestjs/common';
-import { Job } from 'bull';
-import { Rnc } from './rnc.entity';
+import type { Job } from 'bull';
+import type { Rnc } from './rnc.entity';
 import { RNCQueue } from './rnc.enums';
-import { RncService } from './rnc.service';
+import type { RncService } from './rnc.service';
 
 @Processor(RNCQueue.NAME)
 export class RNCProcessor {

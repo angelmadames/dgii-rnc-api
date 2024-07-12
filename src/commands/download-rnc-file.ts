@@ -19,6 +19,7 @@ export class DownloadRNCFile extends CommandRunner {
     const url = options.url;
     const zipFile = options.path;
     const unzippedPath = options.unzippedPath;
+
     try {
       // Cleanup working directory before execution
       await FileManager.deleteFile({ path: zipFile });

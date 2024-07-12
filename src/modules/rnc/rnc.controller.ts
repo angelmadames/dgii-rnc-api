@@ -7,7 +7,7 @@ import {
   Param,
   Query,
 } from '@nestjs/common';
-import { RncService } from './rnc.service';
+import type { RncService } from './rnc.service';
 
 @Controller('rnc')
 export class RncController {
