@@ -37,12 +37,3 @@ services:
     ports:
       - target: 6379
         published: ${REDIS_PORT:-6379}
-
-  bytebase:
-    container_name: dgii-rnc-bytebase
-    image: bytebase/bytebase:2.14.0
-    volumes:
-      - ./bytebase:/var/opt/bytebase
-    ports:
-      - target: 8080
-        published: 8080
